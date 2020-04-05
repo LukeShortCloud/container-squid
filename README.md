@@ -1,6 +1,4 @@
-[![Circle CI](https://circleci.com/gh/sameersbn/docker-squid.svg?style=shield)](https://circleci.com/gh/sameersbn/docker-squid) [![Docker Repository on Quay.io](https://quay.io/repository/sameersbn/squid/status "Docker Repository on Quay.io")](https://quay.io/repository/sameersbn/squid)
-
-# sameersbn/squid:3.5.27-2
+# container-squid
 
 - [Introduction](#introduction)
   - [Contributing](#contributing)
@@ -19,6 +17,8 @@
 
 # Introduction
 
+Originally forked from [sameersbn/docker-squid](https://github.com/sameersbn/docker-squid).
+
 `Dockerfile` to create a [Docker](https://www.docker.com/) container image for [Squid proxy server](http://www.squid-cache.org/).
 
 Squid is a caching proxy for the Web supporting HTTP, HTTPS, FTP, and more. It reduces bandwidth and improves response times by caching and reusing frequently-requested web pages. Squid has extensive access controls and makes a great server accelerator.
@@ -29,7 +29,6 @@ If you find this image useful here's how you can help:
 
 - Send a pull request with your awesome features and bug fixes
 - Help users resolve their [issues](../../issues?q=is%3Aopen+is%3Aissue).
-- Support the development of this image with a [donation](http://www.damagehead.com/donate/)
 
 ## Issues
 
@@ -47,18 +46,10 @@ If the above recommendations do not help then [report your issue](../../issues/n
 
 ## Installation
 
-Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/sameersbn/squid) and is the recommended method of installation.
-
-> **Note**: Builds are also available on [Quay.io](https://quay.io/repository/sameersbn/squid)
+Build the image:
 
 ```bash
-docker pull sameersbn/squid:3.5.27-2
-```
-
-Alternatively you can build the image yourself.
-
-```bash
-docker build -t sameersbn/squid github.com/sameersbn/docker-squid
+docker build -t ekultails/squid .
 ```
 
 ## Quickstart
@@ -69,7 +60,7 @@ Start Squid using:
 docker run --name squid -d --restart=always \
   --publish 3128:3128 \
   --volume /srv/docker/squid/cache:/var/spool/squid \
-  sameersbn/squid:3.5.27-2
+  ekultails/squid:latest
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
@@ -82,7 +73,7 @@ You can customize the launch command of the Squid server by specifying arguments
 docker run --name squid -it --rm \
   --publish 3128:3128 \
   --volume /srv/docker/squid/cache:/var/spool/squid \
-  sameersbn/squid:3.5.27-2 -h
+  ekultails/squid -h
 ```
 
 ## Persistence
@@ -107,7 +98,7 @@ docker run --name squid -d --restart=always \
   --publish 3128:3128 \
   --volume /path/to/squid.conf:/etc/squid/squid.conf \
   --volume /srv/docker/squid/cache:/var/spool/squid \
-  sameersbn/squid:3.5.27-2
+  ekultails/squid:latest
 ```
 
 To reload the Squid configuration on a running instance you can send the `HUP` signal to the container.
@@ -155,7 +146,7 @@ To upgrade to newer releases:
   1. Download the updated Docker image:
 
   ```bash
-  docker pull sameersbn/squid:3.5.27-2
+  docker pull ekultails/squid:latest
   ```
 
   2. Stop the currently running image:
@@ -175,7 +166,7 @@ To upgrade to newer releases:
   ```bash
   docker run -name squid -d \
     [OPTIONS] \
-    sameersbn/squid:3.5.27-2
+    ekultails/squid:latest
   ```
 
 ## Shell Access
