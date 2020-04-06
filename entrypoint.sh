@@ -19,7 +19,12 @@ if [[ -z ${1} ]]; then
   fi
 
   sed -i s'/^http_access.*/http_access allow all/'g /etc/squid/squid.conf
-  echo "cache_dir ufs /var/spool/squid 100 16 256" >> /etc/squid/squid.conf
+  cat <<EOF >> /etc/squid/squid.conf
+cache_dir ufs /var/spool/squid 100 16 256
+acl step1 at_step SslBump1
+ssl_bump peek step1
+ssl_bump bump all
+EOF
   echo "Starting squid..."
   exec /usr/sbin/squid -f /etc/squid/squid.conf -NYCd 1 ${EXTRA_ARGS}
 else
