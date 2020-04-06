@@ -18,13 +18,17 @@ if [[ -z ${1} ]]; then
     /usr/sbin/squid -N -f /etc/squid/squid.conf -z
   fi
 
-  sed -i s'/^http_access.*/http_access allow all/'g /etc/squid/squid.conf
-  cat <<EOF >> /etc/squid/squid.conf
+  if [[ ! -f /var/run/container-squid ]]; then
+    sed -i s'/^http_access.*/http_access allow all/'g /etc/squid/squid.conf
+    cat <<EOF >> /etc/squid/squid.conf
 cache_dir ufs /var/spool/squid 100 16 256
 acl step1 at_step SslBump1
 ssl_bump peek step1
 ssl_bump bump all
 EOF
+    touch /var/run/container-squid
+  fi
+
   echo "Starting squid..."
   exec /usr/sbin/squid -f /etc/squid/squid.conf -NYCd 1 ${EXTRA_ARGS}
 else
